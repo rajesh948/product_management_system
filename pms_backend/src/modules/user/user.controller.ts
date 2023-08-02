@@ -9,10 +9,14 @@ import {
   NotFoundException,
   UseGuards,
   Put,
+  ConflictException,
+  GoneException,
+  Req,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ASSIGN_PERMISSION } from 'src/constant';
 import { permissionGuard } from 'src/guards/permission.guard';
+import { parseJSON } from 'src/util/helper/common.helper';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -24,6 +28,27 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'), new permissionGuard(ASSIGN_PERMISSION.USER.ADD))
   create(@Body() createUserDto: UserDto) {
     return this.userService.create(createUserDto);
+  }
+  @Post('forgot')
+  async forgotPassword(
+    @Body() credential: { email: string; password: string; otp: number },
+    @Req() req,
+  ) {
+    const sessionObj = Object.values(req.sessionStore.sessions)[0];
+
+    if (typeof sessionObj === 'string' && parseJSON(sessionObj)) {
+      if (!parseJSON(sessionObj)?.otp) {
+        throw new GoneException('Please Resend OTP');
+      }
+      if (parseJSON(sessionObj).otp !== credential.otp) {
+        throw new ConflictException('Otp not Match');
+      }
+    }
+
+    const response = await this.userService.forgotPassword(credential);
+    return response
+      ? { message: 'password change successfully' }
+      : { message: 'Email not Found' };
   }
 
   @Get()

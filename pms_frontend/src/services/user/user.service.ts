@@ -21,3 +21,9 @@ export const assignPermissionToUser = (params: object) => {
 export const removePermissionFromUser = (params: object) => {
   return axiosPost("/user-permission/remove", params);
 };
+export const sendEmailWithOTP = (email: object) => {
+  return axiosPost("/email/send", email);
+};
+export const forgetPassword = (credential: object) => {
+  return axiosPost("/user/forgot", credential);
+};

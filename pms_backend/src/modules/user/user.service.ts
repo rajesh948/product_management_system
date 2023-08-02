@@ -46,7 +46,15 @@ export class UserService {
     const userData = await this.userRepository.findOne({ where: { id } });
     if (!userData) return null;
     if (user.password) user.password = await this.hashPassword(user.password);
-    console.log(user);
+
+    return await userData.update({ ...user });
+  }
+  async forgotPassword(user: { email: string; password: string }) {
+    const userData = await this.userRepository.findOne({
+      where: { email: user.email },
+    });
+    if (!userData) return null;
+    if (user.password) user.password = await this.hashPassword(user.password);
 
     return await userData.update({ ...user });
   }

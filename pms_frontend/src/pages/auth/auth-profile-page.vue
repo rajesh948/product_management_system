@@ -3,6 +3,9 @@
     <template v-slot:title>
       <v-banner :elevation="0" class="pa-3 bg-lime-lighten-2" border>
         <div class="float-left text-h4 font-weight-black">Profile</div>
+        <v-btn class="float-right" @click.stop="onGotoHome" variant="tonal">
+          <v-icon icon="mdi-home-import-outline" size="x-large"></v-icon>
+        </v-btn>
       </v-banner>
     </template>
     <template v-slot:content>
@@ -144,6 +147,9 @@ export default {
     const onToggleEditMode = () => {
       isEditMode.value = false;
     };
+    const onGotoHome = () => {
+      router.push({ name: "home" });
+    };
 
     const onSaveProfile = async () => {
       try {
@@ -184,6 +190,7 @@ export default {
       onToggleEditMode,
       onSaveProfile,
       formRef,
+      onGotoHome,
     };
   },
 };

@@ -6,6 +6,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { CartProductModule } from './modules/cart_product/cart-product.module';
 import { CategoryModule } from './modules/category/category.module';
 import { CategoryProductModule } from './modules/category_product/category-product.module';
+import { EmailModule } from './modules/email/email.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { ProductModule } from './modules/product/product.module';
 import { RoleModule } from './modules/role/role.module';
@@ -26,6 +27,7 @@ import { UserPermissionModule } from './modules/user_permission/user-permission.
     CategoryProductModule,
     CartModule,
     CartProductModule,
+    EmailModule,
     ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [],
